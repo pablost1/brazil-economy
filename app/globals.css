@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+:root {
+  --background: #070d1a;
+  --foreground: #e2e8f0;
+  --accent: #38bdf8;
+}
+
+body {
+  background:
+    radial-gradient(1200px 500px at 10% -10%, rgba(56, 189, 248, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 100% 0%, rgba(168, 85, 247, 0.1), transparent 60%),
+    var(--background);
+  background-attachment: fixed;
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: #0b1220;
+}
