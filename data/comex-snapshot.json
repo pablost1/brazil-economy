@@ -1,0 +1,82 @@
+{
+  "year": 2025,
+  "products": [
+    {
+      "name": "Mineral products",
+      "full": "Mineral products",
+      "value": 91685908124
+    },
+    {
+      "name": "Vegetable products",
+      "full": "Vegetable products",
+      "value": 72075483486
+    },
+    {
+      "name": "Prepared foodstuffs",
+      "full": "Prepared foodstuffs, beverages, spirits and vinegar, tobacco and manufactured tobacco substitutes",
+      "value": 36453883628
+    },
+    {
+      "name": "Lives animals",
+      "full": "Lives animals; Animal products",
+      "value": 32729486357
+    },
+    {
+      "name": "Vehicles",
+      "full": "Vehicles, aircraft, vessels and associated transport equipment",
+      "value": 20253637946
+    },
+    {
+      "name": "Machinery and mechanical…",
+      "full": "Machinery and mechanical appliances; Electrical equipment and parts thereof; Sound recorders and reproducers, sound recorders and producers of television image; Parts and accessoires of such articles",
+      "value": 18988403799
+    },
+    {
+      "name": "Base metals and articles of…",
+      "full": "Base metals and articles of base metal",
+      "value": 18380651510
+    },
+    {
+      "name": "Others",
+      "value": 57711001495
+    }
+  ],
+  "destinations": [
+    {
+      "name": "China",
+      "value": 99940244710
+    },
+    {
+      "name": "United States",
+      "value": 37682246914
+    },
+    {
+      "name": "Argentina",
+      "value": 18105303283
+    },
+    {
+      "name": "Netherlands",
+      "value": 11726736048
+    },
+    {
+      "name": "Spain",
+      "value": 8783248496
+    },
+    {
+      "name": "Mexico",
+      "value": 7728866863
+    },
+    {
+      "name": "Singapore",
+      "value": 7353096562
+    },
+    {
+      "name": "Canada",
+      "value": 7251870870
+    },
+    {
+      "name": "Others",
+      "value": 149706848754
+    }
+  ]
+}

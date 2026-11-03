@@ -2,4 +2,4 @@
 :HL["/brazil-economy/_next/static/media/605ce01b664af129-s.p.0wgildi0cnwt9.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"petrobras","h":96,"c":"$Q2"}]]
-0:{"b":"Hjr7R1DBFyZ5fDS4SnY-k","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"TqA3w2G0kHAgJZE7rjmyG","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
