@@ -6,7 +6,6 @@ import Chart from "@/components/Chart";
 import Num from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 export default async function PetrobrasPage() {
   const q = await safe(() => petrQuote());

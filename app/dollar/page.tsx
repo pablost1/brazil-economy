@@ -6,7 +6,6 @@ import { L } from "@/components/Lang";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 export default async function DollarPage() {
   const res = await safe(() => bcbSeries(1));

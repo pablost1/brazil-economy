@@ -9,7 +9,7 @@ let blockedUntil = 0;
 
 async function query(details: string[], from: string, to: string): Promise<Record<string, unknown>[]> {
   if (Date.now() < blockedUntil) throw new Error("Comex Stat: rate limited (HTTP 429), retrying later");
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 6; i++) {
     const res = await fetch("https://api-comexstat.mdic.gov.br/general?language=en", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -17,7 +17,7 @@ async function query(details: string[], from: string, to: string): Promise<Recor
       cache: "no-store",
     });
     if (res.status === 429) {
-      await new Promise((r) => setTimeout(r, 11000));
+      await new Promise((r) => setTimeout(r, 15000));
       continue;
     }
     if (!res.ok) throw new Error(`Comex Stat: HTTP ${res.status}`);

@@ -8,7 +8,6 @@ import RankBars from "@/components/RankBars";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 // IBGE municipality code -> capital city
 const CAPITALS: Record<string, string> = {

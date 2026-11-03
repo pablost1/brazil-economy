@@ -9,7 +9,6 @@ import RankBars from "@/components/RankBars";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 const PALETTE = ["#14b8a6", "#06b6d4", "#3b82f6", "#8b5cf6", "#d946ef", "#f97316", "#eab308", "#84cc16", "#64748b"];
 const bn = (p: Point[]): Point[] => p.map((x) => ({ date: x.date, value: x.value / 1000 }));

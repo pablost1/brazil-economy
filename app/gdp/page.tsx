@@ -5,7 +5,6 @@ import Chart from "@/components/Chart";
 import Num from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 function quarterLabel(iso: string) {
   const q = Math.floor((Number(iso.slice(5, 7)) - 1) / 3) + 1;

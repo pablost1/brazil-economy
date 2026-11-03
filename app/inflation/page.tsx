@@ -5,7 +5,6 @@ import Chart from "@/components/Chart";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 export default async function InflationPage() {
   const [m, y, s] = await Promise.all([safe(() => bcbSeries(433)), safe(() => bcbSeries(13522)), safe(() => bcbSeries(4189))]);

@@ -10,7 +10,6 @@ import { L } from "@/components/Lang";
 import Num from "@/components/Num";
 import type { ReactNode } from "react";
 
-export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const [usd, ipca12, selic, gdp, unemp, basket, exp, petr] = await Promise.all([

@@ -5,7 +5,6 @@ import Chart from "@/components/Chart";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
-export const dynamic = "force-dynamic";
 
 export default async function UnemploymentPage() {
   const [pnad, pme] = await Promise.all([safe(() => bcbSeries(24369, 2012)), safe(() => bcbSeries(10777, 2006, 2016))]);

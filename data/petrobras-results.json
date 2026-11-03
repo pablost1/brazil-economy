@@ -1,5 +1,5 @@
 {
-  "asOf": "FY2024",
+  "asOf": "FY2025",
   "note": "Hand-entered annual net income attributable to shareholders, in R$ billion, from Petrobras' published results (Investor Relations). Rounded; verify against the latest release before relying on them. Update this file when new results come out.",
   "netIncomeBRLbn": [
     { "year": 2015, "value": -34.8 },
@@ -11,6 +11,7 @@
     { "year": 2021, "value": 106.7 },
     { "year": 2022, "value": 188.3 },
     { "year": 2023, "value": 124.6 },
-    { "year": 2024, "value": 36.6 }
+    { "year": 2024, "value": 36.6 },
+    { "year": 2025, "value": 110.1 }
   ]
 }
