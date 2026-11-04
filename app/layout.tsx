@@ -8,7 +8,7 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Brazil Economy Tracker",
-  description: "Dollar, inflation, GDP, unemployment, food basket, exports, Petrobras and public debt - Brazil's key economic indicators with sources.",
+  description: "Dollar, inflation, GDP, unemployment, food basket, exports, Petrobras, public debt, external and public accounts, inequality and industry - Brazil's key economic indicators with sources.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -19,7 +19,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <NavBar />
           {children}
           <footer className="border-t border-white/10 py-6 text-center text-xs text-slate-500">
-            Data from public sources (BCB, IBGE, DIEESE/Ipeadata, MDIC, B3/brapi, Petrobras RI). Not investment advice.
+            Data from public sources (BCB, IBGE, Ipeadata, DIEESE, MDIC, B3/brapi, Petrobras RI). Not investment advice.
           </footer>
         </LangProvider>
       </body>

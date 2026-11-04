@@ -106,4 +106,40 @@ export const SOURCES: Record<string, Source> = {
     url: "https://www.imf.org/en/Publications/WEO",
     note: { en: "IMF estimate of general-government gross debt, shown as a cross-check of the Central Bank figures. Recent years may be projections.", pt: "Estimativa do FMI para a dívida bruta do governo geral, usada como conferência dos números do Banco Central. Anos recentes podem ser projeções." },
   },
+  bcbExternal: {
+    name: "SGS series 13621 (reserves), 22701 (current account), 22885 (direct investment)",
+    org: "Banco Central do Brasil",
+    url: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.13621/dados",
+    note: { en: "International reserves (cash concept, daily, US$ million), monthly current-account balance and monthly net foreign direct investment in Brazil (US$ million).", pt: "Reservas internacionais (conceito caixa, diárias, US$ milhões), saldo mensal em transações correntes e investimento direto no país mensal líquido (US$ milhões)." },
+  },
+  ipeaFiscal: {
+    name: "Ipeadata - BM12_NFSPNYS12, BM12_NFSPPYS12, BM12_NFSPJNYS12 (NFSP)",
+    org: "Banco Central do Brasil (Notas para a Imprensa - Política Fiscal) via Ipeadata",
+    url: "http://www.ipeadata.gov.br/Default.aspx",
+    note: { en: "Public-sector borrowing requirement: nominal, primary and interest, 12-month flow in % of GDP (positive = deficit).", pt: "Necessidades de financiamento do setor público: nominal, primário e juros, fluxo em 12 meses em % do PIB (positivo = déficit)." },
+  },
+  ibgeGini: {
+    name: "SIDRA table 7435 - Gini index of per-capita household income",
+    org: "IBGE (PNAD Contínua)",
+    url: "https://sidra.ibge.gov.br/tabela/7435",
+    note: { en: "Annual Gini index of per-capita household income, at average prices of the year.", pt: "Índice de Gini anual do rendimento domiciliar per capita, a preços médios do ano." },
+  },
+  ipeaPnad: {
+    name: "Ipeadata - PNADC12_RRPH12, PNADC12_MRRTH12, PNADC12_RRPHESPCC12, PNADC12_RRPHESPSC12",
+    org: "IBGE (PNAD Contínua) via Ipeadata",
+    url: "http://www.ipeadata.gov.br/Default.aspx",
+    note: { en: "Average real income of the main job, total real income from work, and income of private employees with and without a formal contract.", pt: "Rendimento real médio do trabalho principal, massa de rendimento real do trabalho e rendimento dos empregados do setor privado com e sem carteira." },
+  },
+  ipeaActivity: {
+    name: "Ipeadata - PIMPFN12_QIIGNN12, PIMPFN12_QIBKNN12, PIMPFN12_QIBCTNN12, PMC12_IVVRN12, PMC12_IVVRNAMP12",
+    org: "IBGE (Pesquisa Industrial Mensal - Produção Física; Pesquisa Mensal de Comércio) via Ipeadata",
+    url: "http://www.ipeadata.gov.br/Default.aspx",
+    note: { en: "Industrial production volume by type of good and real retail sales, indexes with 2022 = 100.", pt: "Volume da produção industrial por tipo de bem e vendas reais do varejo, índices com 2022 = 100." },
+  },
+  bcbIbc: {
+    name: "SGS series 24364 - IBC-Br, seasonally adjusted",
+    org: "Banco Central do Brasil",
+    url: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.24364/dados",
+    note: { en: "Monthly index of economic activity, a contemporaneous indicator of GDP.", pt: "Índice mensal de atividade econômica, indicador contemporâneo do PIB." },
+  },
 };

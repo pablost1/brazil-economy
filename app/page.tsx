@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { bcbSeries } from "@/lib/data/bcb";
-import { gdpAccum4q } from "@/lib/data/ibge";
+import { gdpAccum4q, giniSeries } from "@/lib/data/ibge";
 import { ipeaSeries } from "@/lib/data/ipeadata";
 import { petrQuote } from "@/lib/data/brapi";
 import { safe } from "@/lib/util";
@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
 
 
 export default async function Home() {
-  const [usd, ipca12, selic, gdp, unemp, basket, exp, petr, dbgg] = await Promise.all([
+  const [usd, ipca12, selic, gdp, unemp, basket, exp, petr, dbgg, reserves, nfsp, gini, ibc] = await Promise.all([
     safe(() => bcbSeries(1)),
     safe(() => bcbSeries(13522)),
     safe(() => bcbSeries(4189)),
@@ -22,6 +22,10 @@ export default async function Home() {
     safe(() => bcbSeries(22708)),
     safe(() => petrQuote()),
     safe(() => bcbSeries(13762, 2024)),
+    safe(() => bcbSeries(13621, new Date().getFullYear())),
+    safe(() => ipeaSeries("BM12_NFSPNYS12", 2024)),
+    safe(() => giniSeries()),
+    safe(() => bcbSeries(24364, 2024)),
   ]);
 
   const headline: Record<string, ReactNode> = {};
@@ -42,6 +46,15 @@ export default async function Home() {
   const d = dbgg.ok ? last(dbgg.data) : undefined;
   if (d) headline["/debt"] = <Num v={d.value} d={1} suffix="% PIB" />;
 
+  const rs = reserves.ok ? last(reserves.data) : undefined;
+  if (rs) headline["/external"] = <Num v={rs.value / 1000} d={0} prefix="US$ " suffix=" bi" />;
+  const nf = nfsp.ok ? last(nfsp.data) : undefined;
+  if (nf) headline["/fiscal"] = <Num v={nf.value} d={1} suffix="% PIB" />;
+  const gn = gini.ok ? last(gini.data) : undefined;
+  if (gn) headline["/inequality"] = <Num v={gn.value} d={3} />;
+  const ib = ibc.ok ? last(ibc.data) : undefined;
+  if (ib) headline["/activity"] = <Num v={ib.value} d={1} />;
+
   const captions: Record<string, { en: string; pt: string }> = {
     "/dollar": { en: "latest rate", pt: "cotação atual" },
     "/inflation": { en: "12-month inflation", pt: "inflação em 12 meses" },
@@ -50,6 +63,10 @@ export default async function Home() {
     "/basic-basket": { en: "basket cost, São Paulo", pt: "custo da cesta, São Paulo" },
     "/exports": { en: "exports, last 12 months", pt: "exportações, 12 meses" },
     "/petrobras": { en: "PETR4 share price", pt: "ação PETR4" },
+    "/external": { en: "international reserves", pt: "reservas internacionais" },
+    "/fiscal": { en: "nominal deficit, 12 months", pt: "déficit nominal, 12 meses" },
+    "/inequality": { en: "Gini index, latest year", pt: "índice de Gini, último ano" },
+    "/activity": { en: "IBC-Br activity index", pt: "índice de atividade IBC-Br" },
     "/debt": { en: "gross general-government debt", pt: "dívida bruta do governo geral" },
   };
 
@@ -60,7 +77,7 @@ export default async function Home() {
           <L t={{ en: "Brazil's economy at a glance", pt: "A economia do Brasil em um relance" }} />
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-slate-300">
-          <L t={{ en: "Eight key indicators, each on its own page with a 20-year chart, a plain-language explanation and links to the official sources.", pt: "Oito indicadores-chave, cada um em sua página com gráfico de 20 anos, explicação em linguagem simples e links para as fontes oficiais." }} />
+          <L t={{ en: "Twelve key indicators, each on its own page with a 20-year chart, a plain-language explanation and links to the official sources.", pt: "Doze indicadores-chave, cada um em sua página com gráfico de 20 anos, explicação em linguagem simples e links para as fontes oficiais." }} />
         </p>
       </section>
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

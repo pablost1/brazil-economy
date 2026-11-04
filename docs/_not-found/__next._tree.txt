@@ -1,4 +1,4 @@
-:HL["/brazil-economy/_next/static/chunks/41ygti657wvbq.css","style"]
+:HL["/brazil-economy/_next/static/chunks/0uyumag8u7vcc.css","style"]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"/_not-found","h":96,"c":"$Q2"}]]
-0:{"b":"oBFWKx6ThxFONqMRZi0mg","t":{"t":{"s":"","h":80,"c":"$Q1"}}}
+0:{"b":"XMUtTQhWYrGe63AheTB6d","t":{"t":{"s":"","h":80,"c":"$Q1"}}}

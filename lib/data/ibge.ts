@@ -24,3 +24,17 @@ async function sidraGdp(variable: number): Promise<Point[]> {
 // 6564 = quarter vs previous quarter (seasonally adjusted); 6561 = accumulated over 4 quarters
 export const gdpQuarterly = unstable_cache(() => sidraGdp(6564), ["gdp-q"], { revalidate: 86400 });
 export const gdpAccum4q = unstable_cache(() => sidraGdp(6561), ["gdp-4q"], { revalidate: 86400 });
+
+// Gini index of per-capita household income (PNAD Continua annual, table 7435, variable 10681)
+export const giniSeries = unstable_cache(
+  async (): Promise<Point[]> => {
+    const res = await fetch("https://apisidra.ibge.gov.br/values/t/7435/n1/all/v/10681/p/all", { cache: "no-store" });
+    if (!res.ok) throw new Error(`IBGE SIDRA 7435: HTTP ${res.status}`);
+    return ((await res.json()) as Row[])
+      .slice(1)
+      .map((r) => ({ date: `${r.D3C.slice(0, 4)}-01-01`, value: Number(r.V) }))
+      .filter((p) => Number.isFinite(p.value));
+  },
+  ["gini"],
+  { revalidate: 86400 },
+);
