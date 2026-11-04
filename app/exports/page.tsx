@@ -20,10 +20,10 @@ async function Breakdown({ year }: { year: number }) {
   return (
     <div className="grid gap-6 lg:grid-cols-2">
       <Card title={{ en: `Top product groups, ${r.data.year} (US$)`, pt: `Principais grupos de produtos, ${r.data.year} (US$)` }}>
-        <RankBars items={r.data.products} palette={PALETTE} prefix="US$ " compact decimals={1} />
+        <RankBars about={{ en: "The main product groups Brazil exported in the last complete year, ranked by value in US$.", pt: "Os principais grupos de produtos exportados pelo Brasil no último ano completo, por valor em US$." }} items={r.data.products} palette={PALETTE} prefix="US$ " compact decimals={1} />
       </Card>
       <Card title={{ en: `Top destinations, ${r.data.year} (US$)`, pt: `Principais destinos, ${r.data.year} (US$)` }}>
-        <RankBars items={r.data.destinations} palette={PALETTE.slice().reverse()} prefix="US$ " compact decimals={1} />
+        <RankBars about={{ en: "The main destination countries of Brazilian exports in the last complete year, ranked by value in US$.", pt: "Os principais países de destino das exportações brasileiras no último ano completo, por valor em US$." }} items={r.data.destinations} palette={PALETTE.slice().reverse()} prefix="US$ " compact decimals={1} />
       </Card>
     </div>
   );
@@ -61,10 +61,10 @@ export default async function ExportsPage() {
         {lastMonth && <Kpi label={{ en: "Exports, latest month", pt: "Exportações, último mês" }} value={<Num v={lastMonth.value} d={1} prefix="US$ " suffix=" bi" />} sub={<DateLabel iso={lastMonth.date} />} color="#22d3ee" />}
       </KpiGrid>
       <Card title={{ en: "Annual exports (US$ billion, complete years)", pt: "Exportações anuais (US$ bilhões, anos completos)" }}>
-        <Chart kind="bar" prefix="US$ " suffix=" bi" decimals={0} yearlyLabels noRange series={[{ name: { en: "Exports", pt: "Exportações" }, color: "#14b8a6", points: yearlyEx }]} />
+        <Chart about={{ en: "Brazil's goods exports are what the country sells abroad, in US$ billion per year (complete years only). It measures how many dollars the foreign sector brings in.", pt: "As exportações de bens são o que o país vende ao exterior, em US$ bilhões por ano (só anos completos). Mede quantos dólares o setor externo traz." }} kind="bar" prefix="US$ " suffix=" bi" decimals={0} yearlyLabels noRange series={[{ name: { en: "Exports", pt: "Exportações" }, color: "#14b8a6", points: yearlyEx }]} />
       </Card>
       <Card title={{ en: "Monthly exports vs imports (US$ billion)", pt: "Exportações vs importações mensais (US$ bilhões)" }}>
-        <Chart
+        <Chart about={{ en: "Monthly exports and imports of goods (balance of payments, US$ billion). When the exports line is above imports, the country has a trade surplus.", pt: "Exportações e importações mensais de bens (balanço de pagamentos, US$ bilhões). Quando a linha de exportações está acima da de importações, há superávit comercial." }}
           kind="line"
           prefix="US$ "
           suffix=" bi"
@@ -76,7 +76,7 @@ export default async function ExportsPage() {
         />
       </Card>
       <Card title={{ en: "Monthly trade balance (US$ billion)", pt: "Saldo comercial mensal (US$ bilhões)" }}>
-        <Chart kind="bar" prefix="US$ " suffix=" bi" decimals={1} zeroLine series={[{ name: { en: "Exports − imports", pt: "Exportações − importações" }, color: "#06b6d4", points: balance }]} />
+        <Chart about={{ en: "The trade balance is exports minus imports each month. Positive bars are a surplus (more sold than bought); negative bars are a deficit.", pt: "A balança comercial é exportações menos importações em cada mês. Barras positivas são superávit (vendeu mais do que comprou); negativas são déficit." }} kind="bar" prefix="US$ " suffix=" bi" decimals={1} zeroLine series={[{ name: { en: "Exports − imports", pt: "Exportações − importações" }, color: "#06b6d4", points: balance }]} />
       </Card>
       <Suspense fallback={<Card><p className="animate-pulse text-slate-400">Loading products and destinations… / Carregando produtos e destinos…</p></Card>}>
         <Breakdown year={lastFullYear} />

@@ -28,7 +28,7 @@ export default async function UnemploymentPage() {
         {low && <Kpi label={{ en: "Lowest since 2012", pt: "Mínima desde 2012" }} value={<Num v={low.value} d={1} suffix="%" />} sub={<DateLabel iso={low.date} />} color="#c084fc" />}
       </KpiGrid>
       <Card title={{ en: "Unemployment rate, 2006 to today", pt: "Taxa de desocupação, 2006 até hoje" }}>
-        <Chart
+        <Chart about={{ en: "The unemployment rate is the share of the labor force (people working or looking for work) that has no job. Two surveys are chained here: the old PME (six metropolitan regions) and the PNAD Contínua (the whole country, from 2012). They are not exactly comparable.", pt: "A taxa de desocupação é a parcela da força de trabalho (quem trabalha ou procura trabalho) que está sem emprego. Duas pesquisas aparecem aqui: a antiga PME (seis regiões metropolitanas) e a PNAD Contínua (país inteiro, desde 2012). Elas não são exatamente comparáveis." }}
           kind="line"
           suffix="%"
           decimals={1}

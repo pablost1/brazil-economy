@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ReferenceLine, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 import type { Point, T } from "@/lib/types";
 import { L, useLang } from "./Lang";
+import About from "./About";
 
 export type Series = { name: T; color: string; points: Point[] };
 
@@ -20,11 +21,13 @@ type Props = {
   zeroLine?: boolean;
   /** hide the 5y/10y/20y buttons */
   noRange?: boolean;
+  /** short description of what the index is; enables the hidden "about" panel with an automatic progression summary */
+  about?: T;
 };
 
 const RANGES = [5, 10, 20] as const;
 
-export default function Chart({ series, kind = "area", prefix = "", suffix = "", decimals = 2, height = 340, compact, yearlyLabels, zeroLine, noRange }: Props) {
+export default function Chart({ series, kind = "area", prefix = "", suffix = "", decimals = 2, height = 340, compact, yearlyLabels, zeroLine, noRange, about }: Props) {
   const { lang } = useLang();
   const locale = lang === "pt" ? "pt-BR" : "en-US";
   const [range, setRange] = useState<number>(20);
@@ -80,6 +83,50 @@ export default function Chart({ series, kind = "area", prefix = "", suffix = "",
 
   const sName = (i: number) => series[i].name[lang];
 
+  // Automatic progression summary over the interval currently shown.
+  const progression = useMemo(() => {
+    if (!about) return [];
+    const cutoff = !noRange && lastDate ? `${Number(lastDate.slice(0, 4)) - range}${lastDate.slice(4)}` : "";
+    const isRate = suffix.includes("%");
+    const num = (v: number, d: number) => new Intl.NumberFormat(locale, { maximumFractionDigits: d, minimumFractionDigits: d }).format(v);
+    const when = (d: string) => (yearlyLabels ? d.slice(0, 4) : new Date(d + "T12:00:00").toLocaleDateString(locale, { month: "short", year: "numeric" }));
+    return series.flatMap((s) => {
+      const pts = s.points.filter((p) => p.date >= cutoff).sort((a, b) => a.date.localeCompare(b.date));
+      if (pts.length < 2) return [];
+      const first = pts[0];
+      const end = pts[pts.length - 1];
+      let lo = pts[0];
+      let hi = pts[0];
+      let total = 0;
+      for (const p of pts) {
+        if (p.value < lo.value) lo = p;
+        if (p.value > hi.value) hi = p;
+        total += p.value;
+      }
+      const diff = end.value - first.value;
+      const spread = hi.value - lo.value;
+      const flat = spread === 0 || Math.abs(diff) < spread * 0.05;
+      const up = diff > 0;
+      let how: { en: string; pt: string };
+      if (flat) how = { en: "roughly unchanged", pt: "ficou praticamente estável" };
+      else if (isRate || first.value <= 0) {
+        const amount = isRate ? `${num(Math.abs(diff), Math.max(decimals, 1))} pp` : fmt(Math.abs(diff));
+        how = up ? { en: `rose ${amount}`, pt: `subiu ${amount}` } : { en: `fell ${amount}`, pt: `caiu ${amount}` };
+      } else {
+        const amount = `${num(Math.abs((diff / first.value) * 100), 1)}%`;
+        how = up ? { en: `rose ${amount}`, pt: `subiu ${amount}` } : { en: `fell ${amount}`, pt: `caiu ${amount}` };
+      }
+      const avg = kind === "bar" ? { en: ` Average over the period: ${fmt(total / pts.length)}.`, pt: ` Média no período: ${fmt(total / pts.length)}.` } : { en: "", pt: "" };
+      const txt =
+        lang === "pt"
+          ? `${s.name.pt}: foi de ${fmt(first.value)} (${when(first.date)}) para ${fmt(end.value)} (${when(end.date)}) — ${how.pt}. Mínima de ${fmt(lo.value)} em ${when(lo.date)} e máxima de ${fmt(hi.value)} em ${when(hi.date)}.${avg.pt}`
+          : `${s.name.en}: went from ${fmt(first.value)} (${when(first.date)}) to ${fmt(end.value)} (${when(end.date)}) — ${how.en}. Low of ${fmt(lo.value)} in ${when(lo.date)}, high of ${fmt(hi.value)} in ${when(hi.date)}.${avg.en}`;
+      return [txt];
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [about, series, range, lastDate, noRange, yearlyLabels, lang, suffix, prefix, decimals, kind, compact]);
+  const span = rows.length > 1 ? `${fmtDate(String(rows[0].date))} – ${fmtDate(String(rows[rows.length - 1].date))}` : "";
+
   return (
     <div>
       {!noRange && (
@@ -134,6 +181,24 @@ export default function Chart({ series, kind = "area", prefix = "", suffix = "",
           )}
         </ResponsiveContainer>
       </div>
+      {about && (
+        <About>
+          <p>{about[lang]}</p>
+          {progression.length > 0 && (
+            <div>
+              <p className="mb-1 font-semibold text-white">
+                <L t={{ en: "Progression over the interval shown", pt: "Progressão no intervalo exibido" }} />
+                {span && <span className="font-normal text-slate-400"> ({span})</span>}
+              </p>
+              <ul className="list-disc space-y-1 pl-5">
+                {progression.map((t, i) => (
+                  <li key={i}>{t}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </About>
+      )}
     </div>
   );
 }
