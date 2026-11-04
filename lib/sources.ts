@@ -76,4 +76,34 @@ export const SOURCES: Record<string, Source> = {
     url: "https://www.investidorpetrobras.com.br/",
     note: { en: "Annual net income and dividends from Petrobras' published results. Entered manually - check the site for the latest.", pt: "Lucro líquido anual e dividendos dos resultados publicados pela Petrobras. Inseridos manualmente - confira o site para o mais recente." },
   },
+  bcbDebt: {
+    name: "SGS series 13762 / 13761 (DBGG) and 4513 / 4478 (DLSP)",
+    org: "Banco Central do Brasil",
+    url: "https://api.bcb.gov.br/dados/serie/bcdata.sgs.13762/dados",
+    note: { en: "Gross general-government debt (DBGG, from Dec 2006) and net public-sector debt (DLSP, from Dec 2001), in % of GDP and R$ million.", pt: "Dívida bruta do governo geral (DBGG, desde dez/2006) e dívida líquida do setor público (DLSP, desde dez/2001), em % do PIB e R$ milhões." },
+  },
+  ipeaDebt: {
+    name: "Ipeadata - DLSP series (PAN12_DTSPY12, BM12_DINSPY12, BM12_DEXSPY12, BM12_DINGFY12, BM12_DINEMY12, BM12_DINEEY12)",
+    org: "Banco Central do Brasil via Ipeadata",
+    url: "http://www.ipeadata.gov.br/Default.aspx",
+    note: { en: "Net public-sector debt in % of GDP since 1991, split into domestic and external and by government level (from 2001).", pt: "Dívida líquida do setor público em % do PIB desde 1991, dividida em interna e externa e por esfera de governo (desde 2001)." },
+  },
+  bacenExtDebt: {
+    name: "Ipeadata - PAN_DEXT / BM_DEXTEI and BPAG4_DEX4 (gross external debt)",
+    org: "Banco Central do Brasil (Balance of Payments, External Debt) via Ipeadata",
+    url: "http://www.ipeadata.gov.br/Default.aspx",
+    note: { en: "Gross external debt in US$: annual from 1950 and quarterly from 2001.", pt: "Dívida externa bruta em US$: anual desde 1950 e trimestral desde 2001." },
+  },
+  ibgeHistDebt: {
+    name: "Ipeadata - HIST_DEXVELHA, HIST_DEXREG, HIST_DTGFN (historical debt)",
+    org: "Bouças (Min. Fazenda, 1955); IBGE Estatísticas Históricas do Brasil (1987); Abreu (org.), A ordem do progresso (1992) - via Ipeadata",
+    url: "http://www.ipeadata.gov.br/Default.aspx",
+    note: { en: "External debt in circulation 1824-1950 (pounds sterling), registered external debt 1889-1950 (US$) and federal domestic debt 1909-1969 (% of GDP). Discontinued series.", pt: "Dívida externa em circulação 1824-1950 (libras esterlinas), dívida externa registrada 1889-1950 (US$) e dívida interna federal 1909-1969 (% do PIB). Séries interrompidas." },
+  },
+  imfWeo: {
+    name: "World Economic Outlook - general-government gross and net debt (Brazil)",
+    org: "International Monetary Fund (via Ipeadata)",
+    url: "https://www.imf.org/en/Publications/WEO",
+    note: { en: "IMF estimate of general-government gross debt, shown as a cross-check of the Central Bank figures. Recent years may be projections.", pt: "Estimativa do FMI para a dívida bruta do governo geral, usada como conferência dos números do Banco Central. Anos recentes podem ser projeções." },
+  },
 };

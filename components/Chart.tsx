@@ -33,7 +33,7 @@ export default function Chart({ series, kind = "area", prefix = "", suffix = "",
   const firstDate = useMemo(() => series.flatMap((s) => s.points.map((p) => p.date)).sort()[0] ?? "", [series]);
 
   const rows = useMemo(() => {
-    const cutoff = lastDate ? `${Number(lastDate.slice(0, 4)) - range}${lastDate.slice(4)}` : "";
+    const cutoff = !noRange && lastDate ? `${Number(lastDate.slice(0, 4)) - range}${lastDate.slice(4)}` : "";
     const map = new Map<string, Record<string, number | string>>();
     series.forEach((s, i) => {
       for (const p of s.points) {
@@ -43,8 +43,16 @@ export default function Chart({ series, kind = "area", prefix = "", suffix = "",
         map.set(p.date, row);
       }
     });
-    return [...map.values()].sort((a, b) => String(a.date).localeCompare(String(b.date)));
-  }, [series, range, lastDate]);
+    const sorted = [...map.values()].sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    if (!yearlyLabels || sorted.length < 2) return sorted;
+    // annual charts: keep a row for every year so gaps in the history stay visible
+    const byYear = new Map(sorted.map((r) => [String(r.date).slice(0, 4), r]));
+    const y0 = Number(String(sorted[0].date).slice(0, 4));
+    const y1 = Number(String(sorted[sorted.length - 1].date).slice(0, 4));
+    const out: Record<string, number | string>[] = [];
+    for (let y = y0; y <= y1; y++) out.push(byYear.get(String(y)) ?? { date: `${y}-01-01` });
+    return out;
+  }, [series, range, lastDate, noRange, yearlyLabels]);
 
   const fmt = (v: number) =>
     prefix + new Intl.NumberFormat(locale, { maximumFractionDigits: decimals, minimumFractionDigits: compact ? 0 : decimals, notation: compact ? "compact" : "standard" }).format(v) + suffix;

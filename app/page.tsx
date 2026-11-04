@@ -12,7 +12,7 @@ import type { ReactNode } from "react";
 
 
 export default async function Home() {
-  const [usd, ipca12, selic, gdp, unemp, basket, exp, petr] = await Promise.all([
+  const [usd, ipca12, selic, gdp, unemp, basket, exp, petr, dbgg] = await Promise.all([
     safe(() => bcbSeries(1)),
     safe(() => bcbSeries(13522)),
     safe(() => bcbSeries(4189)),
@@ -21,6 +21,7 @@ export default async function Home() {
     safe(() => ipeaSeries("DIEESE12_CBSP12")),
     safe(() => bcbSeries(22708)),
     safe(() => petrQuote()),
+    safe(() => bcbSeries(13762, 2024)),
   ]);
 
   const headline: Record<string, ReactNode> = {};
@@ -38,6 +39,9 @@ export default async function Home() {
   if (exp.ok && exp.data.length >= 12) headline["/exports"] = <Num v={sum(exp.data.slice(-12)) / 1000} d={0} prefix="US$ " suffix=" bi" />;
   if (petr.ok) headline["/petrobras"] = <Num v={petr.data.price} d={2} prefix="R$ " />;
 
+  const d = dbgg.ok ? last(dbgg.data) : undefined;
+  if (d) headline["/debt"] = <Num v={d.value} d={1} suffix="% PIB" />;
+
   const captions: Record<string, { en: string; pt: string }> = {
     "/dollar": { en: "latest rate", pt: "cotação atual" },
     "/inflation": { en: "12-month inflation", pt: "inflação em 12 meses" },
@@ -46,6 +50,7 @@ export default async function Home() {
     "/basic-basket": { en: "basket cost, São Paulo", pt: "custo da cesta, São Paulo" },
     "/exports": { en: "exports, last 12 months", pt: "exportações, 12 meses" },
     "/petrobras": { en: "PETR4 share price", pt: "ação PETR4" },
+    "/debt": { en: "gross general-government debt", pt: "dívida bruta do governo geral" },
   };
 
   return (
@@ -55,7 +60,7 @@ export default async function Home() {
           <L t={{ en: "Brazil's economy at a glance", pt: "A economia do Brasil em um relance" }} />
         </h1>
         <p className="mt-3 max-w-2xl text-lg text-slate-300">
-          <L t={{ en: "Seven key indicators, each on its own page with a 20-year chart, a plain-language explanation and links to the official sources.", pt: "Sete indicadores-chave, cada um em sua página com gráfico de 20 anos, explicação em linguagem simples e links para as fontes oficiais." }} />
+          <L t={{ en: "Eight key indicators, each on its own page with a 20-year chart, a plain-language explanation and links to the official sources.", pt: "Oito indicadores-chave, cada um em sua página com gráfico de 20 anos, explicação em linguagem simples e links para as fontes oficiais." }} />
         </p>
       </section>
       <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

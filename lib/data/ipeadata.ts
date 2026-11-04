@@ -11,9 +11,9 @@ async function raw(code: string): Promise<Raw[]> {
 }
 
 export const ipeaSeries = unstable_cache(
-  async (code: string): Promise<Point[]> =>
+  async (code: string, fromYear: number = START_YEAR): Promise<Point[]> =>
     (await raw(code))
-      .filter((r) => r.VALVALOR != null && Number(r.VALDATA.slice(0, 4)) >= START_YEAR)
+      .filter((r) => r.VALVALOR != null && Number(r.VALDATA.slice(0, 4)) >= fromYear)
       .map((r) => ({ date: r.VALDATA.slice(0, 10), value: r.VALVALOR as number })),
   ["ipea-series"],
   { revalidate: 86400 },

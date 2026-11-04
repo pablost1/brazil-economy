@@ -10,4 +10,5 @@ export const PAGES: PageMeta[] = [
   { href: "/basic-basket", title: { en: "Food basket", pt: "Cesta básica" }, blurb: { en: "Monthly cost of basic food", pt: "Custo mensal dos alimentos básicos" }, color: "#ef4444", icon: "🛒" },
   { href: "/exports", title: { en: "Exports", pt: "Exportações" }, blurb: { en: "What Brazil sells to the world", pt: "O que o Brasil vende ao mundo" }, color: "#14b8a6", icon: "🚢" },
   { href: "/petrobras", title: { en: "Petrobras", pt: "Petrobras" }, blurb: { en: "Share price, profit and dividends", pt: "Ação, lucro e dividendos" }, color: "#eab308", icon: "🛢️" },
+  { href: "/debt", title: { en: "Public debt", pt: "Dívida pública" }, blurb: { en: "Domestic and external debt since the 1800s", pt: "Dívida interna e externa desde 1800" }, color: "#ec4899", icon: "🏦" },
 ];
