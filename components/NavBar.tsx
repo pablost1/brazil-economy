@@ -9,14 +9,14 @@ export default function NavBar() {
   const path = usePathname();
   return (
     <header className="sticky top-0 z-20 border-b border-white/10 bg-[#070d1a]/85 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center gap-4 px-4 py-3">
-        <Link href="/" className="flex items-center gap-2 font-bold tracking-tight text-white">
+      <div className="mx-auto flex max-w-6xl items-start gap-4 px-4 py-3">
+        <Link href="/" className="flex shrink-0 items-center gap-2 py-1.5 font-bold tracking-tight text-white">
           <span className="text-xl">🇧🇷</span>
           <span className="hidden sm:inline">
             <L t={{ en: "Brazil Economy Tracker", pt: "Painel da Economia do Brasil" }} />
           </span>
         </Link>
-        <nav className="flex flex-1 gap-1 overflow-x-auto text-sm [scrollbar-width:none]">
+        <nav className="flex flex-1 flex-wrap gap-1 text-sm">
           {PAGES.map((p) => {
             const active = path === p.href;
             return (
@@ -32,7 +32,7 @@ export default function NavBar() {
             );
           })}
         </nav>
-        <LangToggle />
+        <div className="shrink-0"><LangToggle /></div>
       </div>
     </header>
   );
