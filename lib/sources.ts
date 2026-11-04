@@ -95,10 +95,10 @@ export const SOURCES: Record<string, Source> = {
     note: { en: "Gross external debt in US$: annual from 1950 and quarterly from 2001.", pt: "Dívida externa bruta em US$: anual desde 1950 e trimestral desde 2001." },
   },
   ibgeHistDebt: {
-    name: "Ipeadata - HIST_DEXVELHA, HIST_DEXREG, HIST_DTGFN (historical debt)",
-    org: "Bouças (Min. Fazenda, 1955); IBGE Estatísticas Históricas do Brasil (1987); Abreu (org.), A ordem do progresso (1992) - via Ipeadata",
+    name: "Ipeadata - HIST_DEXVELHA, HIST_DEXREG (historical external debt)",
+    org: "Bouças (Min. Fazenda, 1955); IBGE Estatísticas Históricas do Brasil (1987) - via Ipeadata",
     url: "http://www.ipeadata.gov.br/Default.aspx",
-    note: { en: "External debt in circulation 1824-1950 (pounds sterling), registered external debt 1889-1950 (US$) and federal domestic debt 1909-1969 (% of GDP). Discontinued series.", pt: "Dívida externa em circulação 1824-1950 (libras esterlinas), dívida externa registrada 1889-1950 (US$) e dívida interna federal 1909-1969 (% do PIB). Séries interrompidas." },
+    note: { en: "External debt in circulation 1824-1950 (pounds sterling), registered external debt 1889-1950 (US$). Discontinued series.", pt: "Dívida externa em circulação 1824-1950 (libras esterlinas), dívida externa registrada 1889-1950 (US$). Séries interrompidas." },
   },
   imfWeo: {
     name: "World Economic Outlook - general-government gross and net debt (Brazil)",

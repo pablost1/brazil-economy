@@ -4,7 +4,6 @@ import { safe } from "@/lib/util";
 import { last } from "@/lib/stats";
 import type { Point } from "@/lib/types";
 import Chart from "@/components/Chart";
-import { L } from "@/components/Lang";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
@@ -19,7 +18,7 @@ function yearEnd(points: Point[]): Point[] {
 const ok = <D,>(r: { ok: true; data: D } | { ok: false; error: string }, fallback: D): D => (r.ok ? r.data : fallback);
 
 export default async function DebtPage() {
-  const [dbggPct, dbggBrl, dlspPct, extAnnual, extQuarterly, extOld, extReg, domOld, dlspIpea, domNet, extNet, gov, subnat, soe, weoGross, weoNet] = await Promise.all([
+  const [dbggPct, dbggBrl, dlspPct, extAnnual, extQuarterly, extOld, extReg, dlspIpea, domNet, extNet, gov, subnat, soe, weoGross, weoNet] = await Promise.all([
     safe(() => bcbSeries(13762, 2006)),
     safe(() => bcbSeries(13761, 2006)),
     safe(() => bcbSeries(4513, 2001)),
@@ -27,7 +26,6 @@ export default async function DebtPage() {
     safe(() => ipeaSeries("BPAG4_DEX4", 2001)),
     safe(() => ipeaSeries("HIST_DEXVELHA", 1800)),
     safe(() => ipeaSeries("HIST_DEXREG", 1800)),
-    safe(() => ipeaSeries("HIST_DTGFN", 1900)),
     safe(() => ipeaSeries("PAN12_DTSPY12", 1900)),
     safe(() => ipeaSeries("BM12_DINSPY12", 2001)),
     safe(() => ipeaSeries("BM12_DEXSPY12", 2001)),
@@ -37,7 +35,7 @@ export default async function DebtPage() {
     safe(() => ipeaSeries("WEO_DIVBRGGWEOBRA", 1900)),
     safe(() => ipeaSeries("WEO_DIVLIQGGWEOBRA", 1900)),
   ]);
-  const all = { dbggPct, dbggBrl, dlspPct, extAnnual, extQuarterly, extOld, extReg, domOld, dlspIpea, domNet, extNet, gov, subnat, soe, weoGross, weoNet };
+  const all = { dbggPct, dbggBrl, dlspPct, extAnnual, extQuarterly, extOld, extReg, dlspIpea, domNet, extNet, gov, subnat, soe, weoGross, weoNet };
   const failed = Object.entries(all).filter(([, r]) => !r.ok);
 
   const dbgg = ok(dbggPct, []);
@@ -73,7 +71,7 @@ export default async function DebtPage() {
         {lastExt && <Kpi label={{ en: "Gross external debt", pt: "Dívida externa bruta" }} value={<Num v={lastExt.value} d={0} prefix="US$ " suffix=" bi" />} sub={<DateLabel iso={lastExt.date} />} color="#22d3ee" />}
       </KpiGrid>
 
-      <Card title={{ en: "Public debt as % of GDP, since 1909 (several official series)", pt: "Dívida pública em % do PIB, desde 1909 (várias séries oficiais)" }}>
+      <Card title={{ en: "Public debt as % of GDP, since 1991 (several official series)", pt: "Dívida pública em % do PIB, desde 1991 (várias séries oficiais)" }}>
         <Chart
           kind="line"
           suffix="%"
@@ -82,16 +80,11 @@ export default async function DebtPage() {
           noRange
           height={380}
           series={[
-            { name: { en: "Federal domestic debt (1909-1969)", pt: "Dívida interna federal (1909-1969)" }, color: "#a78bfa", points: ok(domOld, []) },
             { name: { en: "Net public-sector debt, DLSP (1991→)", pt: "Dívida líquida do setor público, DLSP (1991→)" }, color: "#f472b6", points: yearEnd(ok(dlspIpea, [])) },
             { name: { en: "Gross general-government debt, DBGG (2006→)", pt: "Dívida bruta do governo geral, DBGG (2006→)" }, color: "#fb923c", points: yearEnd(dbgg) },
             { name: { en: "IMF: general-government gross debt", pt: "FMI: dívida bruta do governo geral" }, color: "#94a3b8", points: upTo(ok(weoGross, [])) },
           ]}
         />
-        <p className="mt-3 text-sm text-slate-400">
-          <span className="font-semibold text-slate-300">⚠ </span>
-          <L t={{ en: "There is no official series in % of GDP for 1970-1990 (currency changes and hyperinflation), so the lines have a gap there. External debt in this period is shown in the charts below.", pt: "Não há série oficial em % do PIB para 1970-1990 (trocas de moeda e hiperinflação), por isso as linhas têm uma lacuna nesse período. A dívida externa dessa época aparece nos gráficos abaixo." }} />
-        </p>
       </Card>
 
       <Card title={{ en: "Gross external debt, 1950 to today (US$ billion)", pt: "Dívida externa bruta, de 1950 até hoje (US$ bilhões)" }}>
@@ -159,8 +152,8 @@ export default async function DebtPage() {
           pt="Resumo da história: os primeiros empréstimos externos foram feitos em Londres logo após a independência (1824-25), e por mais de um século a dívida brasileira foi principalmente externa e em libras esterlinas. A dívida externa cresceu rápido nos anos 1970 e virou crise no início dos anos 1980. Nos anos 1990, com a estabilidade de preços do Plano Real, o peso passou para a dívida interna em reais. Desde 2008, as reservas inverteram a posição externa, enquanto a dívida interna subiu com juros e déficits, em especial em 2014-2016 e na pandemia de 2020."
         />
         <P
-          en="How to read the charts: the first one chains the official series that exist for each period, so the lines are not exactly the same concept and should be read as orders of magnitude, not as one continuous measurement. The pound and dollar charts are separate because the currencies cannot be compared. The gross-debt chart in reais is nominal and grows partly just because of inflation, which is why the % of GDP view is the fair one for comparing years."
-          pt="Como ler os gráficos: o primeiro encadeia as séries oficiais que existem em cada período, então as linhas não medem exatamente o mesmo conceito e devem ser lidas como ordens de grandeza, não como uma medida contínua. Os gráficos em libras e em dólares são separados porque as moedas não são comparáveis. O gráfico da dívida bruta em reais é nominal e cresce em parte só pela inflação, por isso a visão em % do PIB é a justa para comparar anos."
+          en="How to read the charts: the first one shows the official series available since 1991 (net debt, gross debt and the IMF estimate); they are different concepts, so compare trends rather than exact levels. The pound and dollar charts are separate because the currencies cannot be compared. The gross-debt chart in reais is nominal and grows partly just because of inflation, which is why the % of GDP view is the fair one for comparing years."
+          pt="Como ler os gráficos: o primeiro mostra as séries oficiais disponíveis desde 1991 (dívida líquida, dívida bruta e a estimativa do FMI); são conceitos diferentes, então compare tendências, não níveis exatos. Os gráficos em libras e em dólares são separados porque as moedas não são comparáveis. O gráfico da dívida bruta em reais é nominal e cresce em parte só pela inflação, por isso a visão em % do PIB é a justa para comparar anos."
         />
       </Explainer>
       <SourcesBox ids={["bcbDebt", "ipeaDebt", "bacenExtDebt", "ibgeHistDebt", "imfWeo"]} />
