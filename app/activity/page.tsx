@@ -4,6 +4,7 @@ import { safe } from "@/lib/util";
 import { last, pct, shiftMonths, valueAt } from "@/lib/stats";
 import type { Point } from "@/lib/types";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
@@ -44,7 +45,7 @@ export default async function ActivityPage() {
         {b.last && <Kpi label={{ en: "IBC-Br activity index (adj.)", pt: "IBC-Br, atividade (ajustado)" }} value={<Num v={b.last.value} d={1} />} sub={<><DateLabel iso={b.last.date} />{b.change !== undefined && <> · <Num v={b.change} d={1} suffix="%" sign /> vs 12m</>}</>} color="#c4b5fd" />}
       </KpiGrid>
       <Card title={{ en: "Industrial production by type of good (index, 2022 = 100)", pt: "Produção industrial por tipo de bem (índice, 2022 = 100)" }}>
-        <Chart about={{ en: "Industrial production volume (IBGE), with prices removed, as an index where the 2022 average is 100. Capital goods show business investment; consumer goods show household demand.", pt: "Volume da produção industrial (IBGE), sem efeito dos preços, em índice onde a média de 2022 é 100. Bens de capital mostram investimento das empresas; bens de consumo, a demanda das famílias." }}
+        <Chart events={EV.industry} about={{ en: "Industrial production volume (IBGE), with prices removed, as an index where the 2022 average is 100. Capital goods show business investment; consumer goods show household demand.", pt: "Volume da produção industrial (IBGE), sem efeito dos preços, em índice onde a média de 2022 é 100. Bens de capital mostram investimento das empresas; bens de consumo, a demanda das famílias." }}
           kind="line"
           decimals={0}
           series={[
@@ -55,7 +56,7 @@ export default async function ActivityPage() {
         />
       </Card>
       <Card title={{ en: "Real retail sales (index, 2022 = 100)", pt: "Vendas reais do varejo (índice, 2022 = 100)" }}>
-        <Chart about={{ en: "Real retail sales (IBGE monthly trade survey), as an index where the 2022 average is 100. The broad measure also includes vehicles and building materials.", pt: "Vendas reais do varejo (Pesquisa Mensal de Comércio do IBGE), em índice onde a média de 2022 é 100. A medida ampliada inclui também veículos e materiais de construção." }}
+        <Chart events={EV.retail} about={{ en: "Real retail sales (IBGE monthly trade survey), as an index where the 2022 average is 100. The broad measure also includes vehicles and building materials.", pt: "Vendas reais do varejo (Pesquisa Mensal de Comércio do IBGE), em índice onde a média de 2022 é 100. A medida ampliada inclui também veículos e materiais de construção." }}
           kind="line"
           decimals={0}
           series={[
@@ -65,7 +66,7 @@ export default async function ActivityPage() {
         />
       </Card>
       <Card title={{ en: "IBC-Br: monthly economic activity index (seasonally adjusted)", pt: "IBC-Br: índice mensal de atividade econômica (com ajuste sazonal)" }}>
-        <Chart about={{ en: "The IBC-Br is the Central Bank's monthly proxy for GDP, seasonally adjusted. Since GDP is quarterly, it gives an earlier read on the economy's direction.", pt: "O IBC-Br é a aproximação mensal do PIB feita pelo Banco Central, com ajuste sazonal. Como o PIB é trimestral, dá uma leitura mais cedo da direção da economia." }} kind="area" decimals={0} series={[{ name: { en: "IBC-Br", pt: "IBC-Br" }, color: "#c4b5fd", points: ibcData }]} />
+        <Chart events={EV.ibc} about={{ en: "The IBC-Br is the Central Bank's monthly proxy for GDP, seasonally adjusted. Since GDP is quarterly, it gives an earlier read on the economy's direction.", pt: "O IBC-Br é a aproximação mensal do PIB feita pelo Banco Central, com ajuste sazonal. Como o PIB é trimestral, dá uma leitura mais cedo da direção da economia." }} kind="area" decimals={0} series={[{ name: { en: "IBC-Br", pt: "IBC-Br" }, color: "#c4b5fd", points: ibcData }]} />
       </Card>
       <Explainer>
         <P en="Industrial production measures the physical volume made by factories, mines and utilities, with prices removed. Capital goods (machines, equipment) show whether companies are investing; consumer goods show how much households are buying. The index is 100 on average in 2022, so 110 means 10% more output than that year." pt="A produção industrial mede o volume físico produzido por fábricas, minas e utilidades, sem o efeito dos preços. Bens de capital (máquinas, equipamentos) mostram se as empresas estão investindo; bens de consumo mostram quanto as famílias estão comprando. O índice vale 100 na média de 2022, então 110 significa 10% mais produção que naquele ano." />

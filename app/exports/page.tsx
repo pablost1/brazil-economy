@@ -5,6 +5,7 @@ import { safe, toYearly } from "@/lib/util";
 import { last, sum } from "@/lib/stats";
 import type { Point } from "@/lib/types";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import RankBars from "@/components/RankBars";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
@@ -61,10 +62,10 @@ export default async function ExportsPage() {
         {lastMonth && <Kpi label={{ en: "Exports, latest month", pt: "Exportações, último mês" }} value={<Num v={lastMonth.value} d={1} prefix="US$ " suffix=" bi" />} sub={<DateLabel iso={lastMonth.date} />} color="#22d3ee" />}
       </KpiGrid>
       <Card title={{ en: "Annual exports (US$ billion, complete years)", pt: "Exportações anuais (US$ bilhões, anos completos)" }}>
-        <Chart about={{ en: "Brazil's goods exports are what the country sells abroad, in US$ billion per year (complete years only). It measures how many dollars the foreign sector brings in.", pt: "As exportações de bens são o que o país vende ao exterior, em US$ bilhões por ano (só anos completos). Mede quantos dólares o setor externo traz." }} kind="bar" prefix="US$ " suffix=" bi" decimals={0} yearlyLabels noRange series={[{ name: { en: "Exports", pt: "Exportações" }, color: "#14b8a6", points: yearlyEx }]} />
+        <Chart events={EV.exportsAnnual} about={{ en: "Brazil's goods exports are what the country sells abroad, in US$ billion per year (complete years only). It measures how many dollars the foreign sector brings in.", pt: "As exportações de bens são o que o país vende ao exterior, em US$ bilhões por ano (só anos completos). Mede quantos dólares o setor externo traz." }} kind="bar" prefix="US$ " suffix=" bi" decimals={0} yearlyLabels noRange series={[{ name: { en: "Exports", pt: "Exportações" }, color: "#14b8a6", points: yearlyEx }]} />
       </Card>
       <Card title={{ en: "Monthly exports vs imports (US$ billion)", pt: "Exportações vs importações mensais (US$ bilhões)" }}>
-        <Chart about={{ en: "Monthly exports and imports of goods (balance of payments, US$ billion). When the exports line is above imports, the country has a trade surplus.", pt: "Exportações e importações mensais de bens (balanço de pagamentos, US$ bilhões). Quando a linha de exportações está acima da de importações, há superávit comercial." }}
+        <Chart events={EV.exportsMonthly} about={{ en: "Monthly exports and imports of goods (balance of payments, US$ billion). When the exports line is above imports, the country has a trade surplus.", pt: "Exportações e importações mensais de bens (balanço de pagamentos, US$ bilhões). Quando a linha de exportações está acima da de importações, há superávit comercial." }}
           kind="line"
           prefix="US$ "
           suffix=" bi"
@@ -76,7 +77,7 @@ export default async function ExportsPage() {
         />
       </Card>
       <Card title={{ en: "Monthly trade balance (US$ billion)", pt: "Saldo comercial mensal (US$ bilhões)" }}>
-        <Chart about={{ en: "The trade balance is exports minus imports each month. Positive bars are a surplus (more sold than bought); negative bars are a deficit.", pt: "A balança comercial é exportações menos importações em cada mês. Barras positivas são superávit (vendeu mais do que comprou); negativas são déficit." }} kind="bar" prefix="US$ " suffix=" bi" decimals={1} zeroLine series={[{ name: { en: "Exports − imports", pt: "Exportações − importações" }, color: "#06b6d4", points: balance }]} />
+        <Chart events={EV.exportsBalance} about={{ en: "The trade balance is exports minus imports each month. Positive bars are a surplus (more sold than bought); negative bars are a deficit.", pt: "A balança comercial é exportações menos importações em cada mês. Barras positivas são superávit (vendeu mais do que comprou); negativas são déficit." }} kind="bar" prefix="US$ " suffix=" bi" decimals={1} zeroLine series={[{ name: { en: "Exports − imports", pt: "Exportações − importações" }, color: "#06b6d4", points: balance }]} />
       </Card>
       <Suspense fallback={<Card><p className="animate-pulse text-slate-400">Loading products and destinations… / Carregando produtos e destinos…</p></Card>}>
         <Breakdown year={lastFullYear} />

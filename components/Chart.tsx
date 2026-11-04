@@ -5,6 +5,7 @@ import { Area, AreaChart, Bar, BarChart, CartesianGrid, Legend, Line, LineChart,
 import type { Point, T } from "@/lib/types";
 import { L, useLang } from "./Lang";
 import About from "./About";
+import type { Ev } from "@/lib/events";
 
 export type Series = { name: T; color: string; points: Point[] };
 
@@ -23,11 +24,13 @@ type Props = {
   noRange?: boolean;
   /** short description of what the index is; enables the hidden "about" panel with an automatic progression summary */
   about?: T;
+  /** dated political/economic events; those inside the interval shown are listed in the panel */
+  events?: Ev[];
 };
 
 const RANGES = [5, 10, 20] as const;
 
-export default function Chart({ series, kind = "area", prefix = "", suffix = "", decimals = 2, height = 340, compact, yearlyLabels, zeroLine, noRange, about }: Props) {
+export default function Chart({ series, kind = "area", prefix = "", suffix = "", decimals = 2, height = 340, compact, yearlyLabels, zeroLine, noRange, about, events }: Props) {
   const { lang } = useLang();
   const locale = lang === "pt" ? "pt-BR" : "en-US";
   const [range, setRange] = useState<number>(20);
@@ -125,6 +128,14 @@ export default function Chart({ series, kind = "area", prefix = "", suffix = "",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [about, series, range, lastDate, noRange, yearlyLabels, lang, suffix, prefix, decimals, kind, compact]);
+  const shownEvents = useMemo(() => {
+    if (!events || rows.length < 2) return [];
+    const a = String(rows[0].date);
+    const z = String(rows[rows.length - 1].date);
+    const n = yearlyLabels ? 4 : 7;
+    return events.filter((ev) => ev.d.slice(0, n) >= a.slice(0, n) && ev.d.slice(0, n) <= z.slice(0, n)).sort((x, y) => x.d.localeCompare(y.d));
+  }, [events, rows, yearlyLabels]);
+  const evDate = (d: string) => (d.length === 4 ? d : new Date(d + "-01T12:00:00").toLocaleDateString(locale, { month: "short", year: "numeric" }));
   const span = rows.length > 1 ? `${fmtDate(String(rows[0].date))} – ${fmtDate(String(rows[rows.length - 1].date))}` : "";
 
   return (
@@ -193,6 +204,28 @@ export default function Chart({ series, kind = "area", prefix = "", suffix = "",
               <ul className="list-disc space-y-1 pl-5">
                 {progression.map((t, i) => (
                   <li key={i}>{t}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {shownEvents.length > 0 && (
+            <div>
+              <p className="mb-1 font-semibold text-white">
+                <L t={{ en: "What was happening (politics, geopolitics, policy)", pt: "O que acontecia (política, geopolítica, decisões de governo)" }} />
+              </p>
+              <ul className="space-y-2">
+                {shownEvents.map((ev, i) => (
+                  <li key={i} className="border-l-2 border-[var(--accent)] pl-3">
+                    <span className="font-semibold text-white">{evDate(ev.d)}</span> — {ev[lang]}
+                    {ev.src && (
+                      <>
+                        {" "}
+                        <a href={ev.src[1]} target="_blank" rel="noopener noreferrer" className="whitespace-nowrap text-sky-400 underline hover:text-sky-300">
+                          [{ev.src[0]}]
+                        </a>
+                      </>
+                    )}
+                  </li>
                 ))}
               </ul>
             </div>

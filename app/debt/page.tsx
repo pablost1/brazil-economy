@@ -4,6 +4,7 @@ import { safe } from "@/lib/util";
 import { last } from "@/lib/stats";
 import type { Point } from "@/lib/types";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
@@ -72,7 +73,7 @@ export default async function DebtPage() {
       </KpiGrid>
 
       <Card title={{ en: "Public debt as % of GDP, since 1991 (several official series)", pt: "Dívida pública em % do PIB, desde 1991 (várias séries oficiais)" }}>
-        <Chart about={{ en: "Public debt as a share of GDP, so years can be compared. DLSP is net debt of the public sector (debts minus financial assets); DBGG is gross debt of the general government; the IMF line is an independent estimate of gross debt.", pt: "Dívida pública como proporção do PIB, para poder comparar anos. A DLSP é a dívida líquida do setor público (dívidas menos ativos financeiros); a DBGG é a dívida bruta do governo geral; a linha do FMI é uma estimativa independente da dívida bruta." }}
+        <Chart events={EV.debtGdp} about={{ en: "Public debt as a share of GDP, so years can be compared. DLSP is net debt of the public sector (debts minus financial assets); DBGG is gross debt of the general government; the IMF line is an independent estimate of gross debt.", pt: "Dívida pública como proporção do PIB, para poder comparar anos. A DLSP é a dívida líquida do setor público (dívidas menos ativos financeiros); a DBGG é a dívida bruta do governo geral; a linha do FMI é uma estimativa independente da dívida bruta." }}
           kind="line"
           suffix="%"
           decimals={1}
@@ -88,24 +89,24 @@ export default async function DebtPage() {
       </Card>
 
       <Card title={{ en: "Gross external debt, 1950 to today (US$ billion)", pt: "Dívida externa bruta, de 1950 até hoje (US$ bilhões)" }}>
-        <Chart about={{ en: "Gross external debt: what residents of Brazil (government, banks and companies) owe to non-residents, in US$ billion per year since 1950.", pt: "Dívida externa bruta: o que residentes no Brasil (governo, bancos e empresas) devem a não residentes, em US$ bilhões por ano desde 1950." }} kind="area" prefix="US$ " suffix=" bi" decimals={0} yearlyLabels noRange series={[{ name: { en: "Gross external debt", pt: "Dívida externa bruta" }, color: "#22d3ee", points: extBn }]} />
+        <Chart events={EV.extDebt} about={{ en: "Gross external debt: what residents of Brazil (government, banks and companies) owe to non-residents, in US$ billion per year since 1950.", pt: "Dívida externa bruta: o que residentes no Brasil (governo, bancos e empresas) devem a não residentes, em US$ bilhões por ano desde 1950." }} kind="area" prefix="US$ " suffix=" bi" decimals={0} yearlyLabels noRange series={[{ name: { en: "Gross external debt", pt: "Dívida externa bruta" }, color: "#22d3ee", points: extBn }]} />
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title={{ en: "External debt in circulation, 1824-1950 (£ million)", pt: "Dívida externa em circulação, 1824-1950 (£ milhões)" }}>
-          <Chart about={{ en: "Brazil's external debt in circulation from 1824 to 1950, in millions of pounds sterling (the currency of the London loans). Historical series from Ministry of Finance records.", pt: "A dívida externa brasileira em circulação de 1824 a 1950, em milhões de libras esterlinas (a moeda dos empréstimos de Londres). Série histórica dos registros do Ministério da Fazenda." }} kind="area" prefix="£ " suffix=" mi" decimals={0} yearlyLabels noRange height={300} series={[{ name: { en: "External debt (pounds sterling)", pt: "Dívida externa (libras esterlinas)" }, color: "#facc15", points: scale(ok(extOld, []), 1 / 1000) }]} />
+          <Chart events={EV.extDebtGbp} about={{ en: "Brazil's external debt in circulation from 1824 to 1950, in millions of pounds sterling (the currency of the London loans). Historical series from Ministry of Finance records.", pt: "A dívida externa brasileira em circulação de 1824 a 1950, em milhões de libras esterlinas (a moeda dos empréstimos de Londres). Série histórica dos registros do Ministério da Fazenda." }} kind="area" prefix="£ " suffix=" mi" decimals={0} yearlyLabels noRange height={300} series={[{ name: { en: "External debt (pounds sterling)", pt: "Dívida externa (libras esterlinas)" }, color: "#facc15", points: scale(ok(extOld, []), 1 / 1000) }]} />
         </Card>
         <Card title={{ en: "Registered external debt, 1889-1950 (US$ million)", pt: "Dívida externa registrada, 1889-1950 (US$ milhões)" }}>
-          <Chart about={{ en: "Registered external debt from 1889 to 1950, in US$ million. It overlaps with the pound series but uses a different record and currency, so compare trends, not levels.", pt: "Dívida externa registrada de 1889 a 1950, em US$ milhões. Sobrepõe-se à série em libras, mas usa outro registro e outra moeda, então compare tendências, não níveis." }} kind="area" prefix="US$ " suffix=" mi" decimals={0} yearlyLabels noRange height={300} series={[{ name: { en: "Registered external debt", pt: "Dívida externa registrada" }, color: "#34d399", points: ok(extReg, []) }]} />
+          <Chart events={EV.extDebtReg} about={{ en: "Registered external debt from 1889 to 1950, in US$ million. It overlaps with the pound series but uses a different record and currency, so compare trends, not levels.", pt: "Dívida externa registrada de 1889 a 1950, em US$ milhões. Sobrepõe-se à série em libras, mas usa outro registro e outra moeda, então compare tendências, não níveis." }} kind="area" prefix="US$ " suffix=" mi" decimals={0} yearlyLabels noRange height={300} series={[{ name: { en: "Registered external debt", pt: "Dívida externa registrada" }, color: "#34d399", points: ok(extReg, []) }]} />
         </Card>
       </div>
 
       <Card title={{ en: "Gross external debt, quarterly since 2001 (US$ billion)", pt: "Dívida externa bruta, trimestral desde 2001 (US$ bilhões)" }}>
-        <Chart about={{ en: "The same gross external debt, now quarterly since 2001 and up to date, in US$ billion.", pt: "A mesma dívida externa bruta, agora trimestral desde 2001 e atualizada, em US$ bilhões." }} kind="line" prefix="US$ " suffix=" bi" decimals={0} noRange series={[{ name: { en: "Gross external debt", pt: "Dívida externa bruta" }, color: "#22d3ee", points: extQBn }]} />
+        <Chart events={EV.extDebtQ} about={{ en: "The same gross external debt, now quarterly since 2001 and up to date, in US$ billion.", pt: "A mesma dívida externa bruta, agora trimestral desde 2001 e atualizada, em US$ bilhões." }} kind="line" prefix="US$ " suffix=" bi" decimals={0} noRange series={[{ name: { en: "Gross external debt", pt: "Dívida externa bruta" }, color: "#22d3ee", points: extQBn }]} />
       </Card>
 
       <Card title={{ en: "Net debt: domestic vs external, since 2001 (% of GDP)", pt: "Dívida líquida: interna vs externa, desde 2001 (% do PIB)" }}>
-        <Chart about={{ en: "Net debt of the public sector split between domestic and external, as % of GDP. Net external debt below zero means the reserves are larger than what the public sector owes abroad.", pt: "Dívida líquida do setor público dividida entre interna e externa, em % do PIB. Dívida externa líquida abaixo de zero significa que as reservas superam o que o setor público deve lá fora." }}
+        <Chart events={EV.netDebt} about={{ en: "Net debt of the public sector split between domestic and external, as % of GDP. Net external debt below zero means the reserves are larger than what the public sector owes abroad.", pt: "Dívida líquida do setor público dividida entre interna e externa, em % do PIB. Dívida externa líquida abaixo de zero significa que as reservas superam o que o setor público deve lá fora." }}
           kind="line"
           suffix="%"
           decimals={1}
@@ -120,7 +121,7 @@ export default async function DebtPage() {
       </Card>
 
       <Card title={{ en: "Who owes it: domestic net debt by level of government (% of GDP)", pt: "Quem deve: dívida interna líquida por esfera (% do PIB)" }}>
-        <Chart about={{ en: "Domestic net debt broken down by who owes it: federal government with the Central Bank, states and municipalities, and state-owned companies (% of GDP).", pt: "Dívida interna líquida dividida por quem deve: governo federal com o Banco Central, estados e municípios, e estatais (% do PIB)." }}
+        <Chart events={EV.debtLevels} about={{ en: "Domestic net debt broken down by who owes it: federal government with the Central Bank, states and municipalities, and state-owned companies (% of GDP).", pt: "Dívida interna líquida dividida por quem deve: governo federal com o Banco Central, estados e municípios, e estatais (% do PIB)." }}
           kind="line"
           suffix="%"
           decimals={1}
@@ -135,7 +136,7 @@ export default async function DebtPage() {
       </Card>
 
       <Card title={{ en: "Gross debt in reais (R$ trillion, nominal)", pt: "Dívida bruta em reais (R$ trilhões, nominal)" }}>
-        <Chart about={{ en: "Gross general-government debt in nominal reais (trillions). It also grows with inflation, so the % of GDP chart is fairer for comparing years.", pt: "Dívida bruta do governo geral em reais nominais (trilhões). Cresce também com a inflação, por isso o gráfico em % do PIB é mais justo para comparar anos." }} kind="area" prefix="R$ " suffix=" tri" decimals={1} noRange series={[{ name: { en: "DBGG", pt: "DBGG" }, color: "#fb923c", points: dbggTri }]} />
+        <Chart events={EV.debtBrl} about={{ en: "Gross general-government debt in nominal reais (trillions). It also grows with inflation, so the % of GDP chart is fairer for comparing years.", pt: "Dívida bruta do governo geral em reais nominais (trilhões). Cresce também com a inflação, por isso o gráfico em % do PIB é mais justo para comparar anos." }} kind="area" prefix="R$ " suffix=" tri" decimals={1} noRange series={[{ name: { en: "DBGG", pt: "DBGG" }, color: "#fb923c", points: dbggTri }]} />
       </Card>
 
       <Explainer>

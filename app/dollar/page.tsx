@@ -2,6 +2,7 @@ import { bcbSeries } from "@/lib/data/bcb";
 import { safe, toMonthly } from "@/lib/util";
 import { last, pct, shiftMonths, valueAt } from "@/lib/stats";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import { L } from "@/components/Lang";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
@@ -33,7 +34,7 @@ export default async function DollarPage() {
         </KpiGrid>
       )}
       <Card title={{ en: "Dollar price in reais (monthly average)", pt: "Preço do dólar em reais (média mensal)" }}>
-        <Chart about={{ en: "The commercial US dollar selling rate (PTAX) published by the Central Bank, shown as a monthly average: how many reais it takes to buy one dollar. A higher number means a weaker real; a lower number, a stronger real.", pt: "Cotação de venda do dólar comercial (PTAX) divulgada pelo Banco Central, em média mensal: quantos reais são necessários para comprar um dólar. Número mais alto significa real mais fraco; mais baixo, real mais forte." }} series={[{ name: { en: "R$ per US$ 1", pt: "R$ por US$ 1" }, color: "#22c55e", points: monthly }]} prefix="R$ " />
+        <Chart events={EV.dollar} about={{ en: "The commercial US dollar selling rate (PTAX) published by the Central Bank, shown as a monthly average: how many reais it takes to buy one dollar. A higher number means a weaker real; a lower number, a stronger real.", pt: "Cotação de venda do dólar comercial (PTAX) divulgada pelo Banco Central, em média mensal: quantos reais são necessários para comprar um dólar. Número mais alto significa real mais fraco; mais baixo, real mais forte." }} series={[{ name: { en: "R$ per US$ 1", pt: "R$ por US$ 1" }, color: "#22c55e", points: monthly }]} prefix="R$ " />
         {peak && low && (
           <p className="mt-4 text-sm text-slate-400">
             <L t={{ en: "Highest in the period:", pt: "Máxima no período:" }} /> <Num v={peak.value} d={2} prefix="R$ " /> (<DateLabel iso={peak.date} />).{" "}

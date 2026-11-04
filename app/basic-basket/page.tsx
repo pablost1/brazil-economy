@@ -3,6 +3,7 @@ import { ipeaLatestByCity, ipeaSeries } from "@/lib/data/ipeadata";
 import { safe } from "@/lib/util";
 import { last, pct, shiftMonths, valueAt } from "@/lib/stats";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import { L } from "@/components/Lang";
 import RankBars from "@/components/RankBars";
 import Num, { DateLabel } from "@/components/Num";
@@ -57,10 +58,10 @@ export default async function BasketPage() {
         {nowShare && <Kpi label={{ en: "Share of minimum wage", pt: "Fatia do salário mínimo" }} value={<Num v={nowShare.value} d={1} suffix="%" />} color="#fb7185" sub={<L t={{ en: "of the monthly minimum wage", pt: "do salário mínimo mensal" }} />} />}
       </KpiGrid>
       <Card title={{ en: "Monthly basket cost, São Paulo (R$)", pt: "Custo mensal da cesta, São Paulo (R$)" }}>
-        <Chart about={{ en: "The monthly cost of the basic food basket in São Paulo, measured by DIEESE: the minimum set of foods an adult needs. It is a direct gauge of how food prices affect the household budget.", pt: "O custo mensal da cesta básica de alimentos em São Paulo, medido pelo DIEESE: o conjunto mínimo de alimentos de que um adulto precisa. Mede diretamente como os preços da comida pesam no orçamento." }} kind="area" prefix="R$ " decimals={0} series={[{ name: { en: "Basket cost", pt: "Custo da cesta" }, color: "#ef4444", points: cost }]} />
+        <Chart events={EV.basketCost} about={{ en: "The monthly cost of the basic food basket in São Paulo, measured by DIEESE: the minimum set of foods an adult needs. It is a direct gauge of how food prices affect the household budget.", pt: "O custo mensal da cesta básica de alimentos em São Paulo, medido pelo DIEESE: o conjunto mínimo de alimentos de que um adulto precisa. Mede diretamente como os preços da comida pesam no orçamento." }} kind="area" prefix="R$ " decimals={0} series={[{ name: { en: "Basket cost", pt: "Custo da cesta" }, color: "#ef4444", points: cost }]} />
       </Card>
       <Card title={{ en: "Basket as a share of the minimum wage", pt: "Cesta como percentual do salário mínimo" }}>
-        <Chart about={{ en: "The basket cost divided by the national minimum wage at the time. A falling line means a minimum-wage worker needs a smaller part of their pay to buy the basket; a rising line means the opposite.", pt: "O custo da cesta dividido pelo salário mínimo vigente. Uma linha em queda significa que quem ganha o mínimo gasta uma parte menor do salário na cesta; em alta, o contrário." }} kind="line" suffix="%" decimals={0} series={[{ name: { en: "% of minimum wage", pt: "% do salário mínimo" }, color: "#fb7185", points: share }]} />
+        <Chart events={EV.basketShare} about={{ en: "The basket cost divided by the national minimum wage at the time. A falling line means a minimum-wage worker needs a smaller part of their pay to buy the basket; a rising line means the opposite.", pt: "O custo da cesta dividido pelo salário mínimo vigente. Uma linha em queda significa que quem ganha o mínimo gasta uma parte menor do salário na cesta; em alta, o contrário." }} kind="line" suffix="%" decimals={0} series={[{ name: { en: "% of minimum wage", pt: "% do salário mínimo" }, color: "#fb7185", points: share }]} />
       </Card>
       {ranking.length > 0 && (
         <Card title={{ en: `Cost by capital city${cityMonth ? " (" + cityMonth.slice(0, 7) + ")" : ""}`, pt: `Custo por capital${cityMonth ? " (" + cityMonth.slice(0, 7) + ")" : ""}` }}>

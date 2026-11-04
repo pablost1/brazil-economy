@@ -3,6 +3,7 @@ import { safe } from "@/lib/util";
 import { pct, shiftMonths, valueAt } from "@/lib/stats";
 import results from "@/data/petrobras-results.json";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import Num from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
@@ -31,10 +32,10 @@ export default async function PetrobrasPage() {
         {lastPt && yearAgo && <Kpi label={{ en: "Share price, 12 months", pt: "Preço da ação, 12 meses" }} value={<Num v={pct(lastPt.value, yearAgo.value)} d={1} suffix="%" sign />} color={lastPt.value >= yearAgo.value ? "#4ade80" : "#f87171"} sub={tenAgo ? <Num v={pct(lastPt.value, tenAgo.value)} d={0} suffix="% in 10 years" sign /> : undefined} />}
       </KpiGrid>
       <Card title={{ en: "PETR4 monthly closing price (R$)", pt: "Preço de fechamento mensal da PETR4 (R$)" }}>
-        <Chart about={{ en: "The monthly closing price of Petrobras preferred shares (PETR4) on the B3 stock exchange, in reais. It reflects what investors think the company is worth, driven by oil prices, profits, dividends and politics.", pt: "O preço de fechamento mensal das ações preferenciais da Petrobras (PETR4) na B3, em reais. Reflete quanto os investidores acham que a empresa vale, influenciado por preço do petróleo, lucros, dividendos e política." }} kind="area" prefix="R$ " series={[{ name: { en: "PETR4 close", pt: "Fechamento PETR4" }, color: "#eab308", points: hist }]} />
+        <Chart events={EV.petrPrice} about={{ en: "The monthly closing price of Petrobras preferred shares (PETR4) on the B3 stock exchange, in reais. It reflects what investors think the company is worth, driven by oil prices, profits, dividends and politics.", pt: "O preço de fechamento mensal das ações preferenciais da Petrobras (PETR4) na B3, em reais. Reflete quanto os investidores acham que a empresa vale, influenciado por preço do petróleo, lucros, dividendos e política." }} kind="area" prefix="R$ " series={[{ name: { en: "PETR4 close", pt: "Fechamento PETR4" }, color: "#eab308", points: hist }]} />
       </Card>
       <Card title={{ en: `Annual net income (R$ billion, through ${results.asOf})`, pt: `Lucro líquido anual (R$ bilhões, até ${results.asOf})` }}>
-        <Chart about={{ en: "Petrobras' net income per year in R$ billion, from its published results. Negative bars are losses.", pt: "O lucro líquido anual da Petrobras em R$ bilhões, segundo seus resultados publicados. Barras negativas são prejuízos." }} kind="bar" prefix="R$ " suffix=" bi" decimals={1} yearlyLabels zeroLine noRange series={[{ name: { en: "Net income", pt: "Lucro líquido" }, color: "#facc15", points: income }]} />
+        <Chart events={EV.petrIncome} about={{ en: "Petrobras' net income per year in R$ billion, from its published results. Negative bars are losses.", pt: "O lucro líquido anual da Petrobras em R$ bilhões, segundo seus resultados publicados. Barras negativas são prejuízos." }} kind="bar" prefix="R$ " suffix=" bi" decimals={1} yearlyLabels zeroLine noRange series={[{ name: { en: "Net income", pt: "Lucro líquido" }, color: "#facc15", points: income }]} />
         <p className="mt-3 text-sm text-slate-400">
           {lastIncome?.year}: <Num v={lastIncome?.value ?? 0} d={1} prefix="R$ " suffix=" bi" />.{" "}
           <span className="opacity-80">{results.note}</span>

@@ -2,6 +2,7 @@ import { ipeaSeries } from "@/lib/data/ipeadata";
 import { safe } from "@/lib/util";
 import { last } from "@/lib/stats";
 import Chart from "@/components/Chart";
+import { EV } from "@/lib/events";
 import Num, { DateLabel } from "@/components/Num";
 import { Card, ErrorNote, Explainer, Kpi, KpiGrid, P, PageShell, SourcesBox } from "@/components/ui";
 
@@ -30,7 +31,7 @@ export default async function FiscalPage() {
         {li && <Kpi label={{ en: "Interest paid, 12 months (% GDP)", pt: "Juros pagos, 12 meses (% do PIB)" }} value={<Num v={li.value} d={2} suffix="%" />} sub={<DateLabel iso={li.date} />} color="#facc15" />}
       </KpiGrid>
       <Card title={{ en: "Primary result, interest and nominal deficit (12 months, % of GDP; positive = deficit)", pt: "Resultado primário, juros e déficit nominal (12 meses, % do PIB; positivo = déficit)" }}>
-        <Chart about={{ en: "The public sector's financing need over the last 12 months, as % of GDP (positive = deficit). Nominal result = primary result + interest. The primary result excludes interest; the interest line is the cost of the debt.", pt: "A necessidade de financiamento do setor público nos últimos 12 meses, em % do PIB (positivo = déficit). Resultado nominal = primário + juros. O primário exclui juros; a linha de juros é o custo da dívida." }}
+        <Chart events={EV.fiscal} about={{ en: "The public sector's financing need over the last 12 months, as % of GDP (positive = deficit). Nominal result = primary result + interest. The primary result excludes interest; the interest line is the cost of the debt.", pt: "A necessidade de financiamento do setor público nos últimos 12 meses, em % do PIB (positivo = déficit). Resultado nominal = primário + juros. O primário exclui juros; a linha de juros é o custo da dívida." }}
           kind="line"
           suffix="%"
           decimals={1}
@@ -43,7 +44,7 @@ export default async function FiscalPage() {
         />
       </Card>
       <Card title={{ en: "Interest on the public debt (12 months, % of GDP)", pt: "Juros da dívida pública (12 meses, % do PIB)" }}>
-        <Chart about={{ en: "Interest paid by the public sector on its debt over the last 12 months, as % of GDP. It rises with the Selic rate and with the size of the debt.", pt: "Juros pagos pelo setor público sobre a dívida nos últimos 12 meses, em % do PIB. Sobem com a Selic e com o tamanho da dívida." }} kind="area" suffix="%" decimals={1} series={[{ name: { en: "Interest", pt: "Juros" }, color: "#f97316", points: interest }]} />
+        <Chart events={EV.fiscalInterest} about={{ en: "Interest paid by the public sector on its debt over the last 12 months, as % of GDP. It rises with the Selic rate and with the size of the debt.", pt: "Juros pagos pelo setor público sobre a dívida nos últimos 12 meses, em % do PIB. Sobem com a Selic e com o tamanho da dívida." }} kind="area" suffix="%" decimals={1} series={[{ name: { en: "Interest", pt: "Juros" }, color: "#f97316", points: interest }]} />
       </Card>
       <Explainer>
         <P en="The public sector's financing need (NFSP) measures how much the government had to borrow in a period. Here a positive number is a deficit and a negative number is a surplus. The nominal result is the whole picture; the primary result leaves out interest, showing whether revenue covers the government's spending on services, salaries and investment." pt="A necessidade de financiamento do setor público (NFSP) mede quanto o governo precisou tomar emprestado em um período. Aqui, número positivo é déficit e negativo é superávit. O resultado nominal é o quadro completo; o primário exclui os juros e mostra se a arrecadação cobre os gastos com serviços, salários e investimentos." />
